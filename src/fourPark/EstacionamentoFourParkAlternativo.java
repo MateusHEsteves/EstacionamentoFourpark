@@ -60,6 +60,8 @@ public class EstacionamentoFourParkAlternativo {
 					}
 
 				}
+				
+				System.err.println("Agora eu estou verssionado");
 
 				System.out.println("\n Qual o modelo do veículo: \n");
 				String modeloVeiculo = sc.nextLine();
@@ -96,7 +98,7 @@ public class EstacionamentoFourParkAlternativo {
 						break;
 
 					} else {
-						System.err.println("A vaga " + (posicao + 1) + "está ocupada.");
+						System.err.println("A vaga " + (posicao + 1) + " está ocupada.");
 					}
 					if ((posicao + 1) > estacionamento.length) {
 						System.out.println("Estacionamento está lotado.");
