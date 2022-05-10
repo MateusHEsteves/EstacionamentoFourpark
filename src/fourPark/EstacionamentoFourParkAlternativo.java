@@ -6,37 +6,27 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
 
+/*MVP 2
+
+O sistema deverá estar apto a receber um valor/hora e deverá ser capaz de calcular o valor a pagar de cada veículo na saída.
+O sistema deverá exibir uma listagem de histórico de cada veículo que passou pelo estacionamento com horário de entrada e saída do mesmo.
+O sistema deverá calcular o valor recebido durante todo o dia. */
+
 public class EstacionamentoFourParkAlternativo {
 
 	public static void main(String[] args) {
-		/*
-		 * MVP 1
-		 * 
-		 * 1 - O que gostaria é de um cadastro que registre todas as minhas vagas
-		 * disponíveis, as ocupadas e os dados dos veículos em cada uma delas.
-		 * 
-		 * 2 - O sistema deverá fazer a entrada de cada veículo com os dados e
-		 * informações deste, horário de entrada e a vaga ocupada.
-		 * 
-		 * 3 - Ao sair o sistema deverá coletar a horário de saída de cada carro e
-		 * recolocar a vaga como disponível.
-		 */
 
 		Integer tamanho = 50;
-		Integer vagasOcupadas = 0;
+		Double valorHora = 10.0;
 
 		ClasseVaga[] estacionamento = new ClasseVaga[tamanho];
 		while (true) {
 
 			System.out.println("\n\n------------ Estacionamento FOURPARK ---------------"
-					+ "\n      |     1 - Ocupar Vaga         |     " 
-					+ "\n      |     2 - Desocupar Vaga      |     "
-					+ "\n      |     3 - Vagas Ocupadas      |     " 
-					+ "\n      |     4 - Vagas Disponível    |     "
-					+ "\n      |     5 - Veículo na Vaga     |     " 
-					+ "\n      |     --------------          |     "
-					+ "\n      |     0 -  S A I R            |     " 
-					+ "\n       Informe a opção desejada: ");
+					+ "\n      |     1 - Ocupar Vaga         |     " + "\n      |     2 - Desocupar Vaga      |     "
+					+ "\n      |     3 - Vagas Ocupadas      |     " + "\n      |     4 - Vagas Disponível    |     "
+					+ "\n      |     5 - Veículo na Vaga     |     " + "\n      |     --------------          |     "
+					+ "\n      |     0 -  S A I R            |     " + "\n       Informe a opção desejada: ");
 
 			Scanner sc = new Scanner(System.in);
 			Integer opcao = sc.nextInt();
@@ -60,8 +50,6 @@ public class EstacionamentoFourParkAlternativo {
 					}
 
 				}
-				
-				System.err.println("Agora eu estou verssionado");
 
 				System.out.println("\n Qual o modelo do veículo: \n");
 				String modeloVeiculo = sc.nextLine();
@@ -92,9 +80,10 @@ public class EstacionamentoFourParkAlternativo {
 					if (estacionamento[posicao].getIsDisponivel()) {
 						estacionamento[posicao].setVeiculo(veiculo);
 						estacionamento[posicao].setIsDisponivel(false);
-						estacionamento[posicao].setHorarioEntrada(new Date().toString());
+						estacionamento[posicao].setHorarioEntrada(new Date());
 						System.out.println("O veículo " + veiculo.getModelo() + " da placa " + veiculo.getPlaca()
-								+ " Foi estacionado na vaga: " + (posicao + 1) + ".");
+								+ " Foi estacionado na vaga: " + (posicao + 1) + " "
+								+ estacionamento[posicao].getHorarioEntrada() + ".");
 						break;
 
 					} else {
@@ -116,18 +105,28 @@ public class EstacionamentoFourParkAlternativo {
 
 					if (estacionamento.length == (posicao + 1)) {
 
-						System.out.println("Sua placa foi informada incorretamente ou seu veículo não está no nosso pátio.");
-								
+						System.out.println(
+								"Sua placa foi informada incorretamente ou seu veículo não está no nosso pátio.");
+
 					}
 					if (estacionamento[posicao] == null) {
 						continue;
 					}
 
 					if (estacionamento[posicao].getVeiculo().getPlaca().equals(placaInformada)) {
+
+						estacionamento[posicao].setHorarioSaida(new Date());
+
+						Double valorAPagar = (estacionamento[posicao].tempoEstacionado() / 3600) * valorHora;
+
+						System.out.println("O valor à pagar é de: " + valorAPagar);
+
 						estacionamento[posicao].setIsDisponivel(true);
 						estacionamento[posicao].setVeiculo(null);
-						System.out.println("Obridado por estacionar no FourPark!" + "\n" + "Seu veículo está liberado.");
-	
+
+						System.out.println("Obridado por estacionar no FourPark!" + "\n" + "Seu veículo está liberado."
+								+ " No horário " + estacionamento[posicao].getHorarioSaida());
+
 						break;
 					}
 
