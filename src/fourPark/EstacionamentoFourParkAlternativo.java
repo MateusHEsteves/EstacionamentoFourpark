@@ -23,10 +23,15 @@ public class EstacionamentoFourParkAlternativo {
 		while (true) {
 
 			System.out.println("\n\n------------ Estacionamento FOURPARK ---------------"
-					+ "\n      |     1 - Ocupar Vaga         |     " + "\n      |     2 - Desocupar Vaga      |     "
-					+ "\n      |     3 - Vagas Ocupadas      |     " + "\n      |     4 - Vagas Disponível    |     "
-					+ "\n      |     5 - Veículo na Vaga     |     " + "\n      |     --------------          |     "
-					+ "\n      |     0 -  S A I R            |     " + "\n       Informe a opção desejada: ");
+					+ "\n      |     1 - Ocupar Vaga         |     " 
+					+ "\n      |     2 - Desocupar Vaga      |     "
+					+ "\n      |     3 - Vagas Ocupadas      |     " 
+					+ "\n      |     4 - Vagas Disponível    |     "
+					+ "\n      |     5 - Veículo na Vaga     |     " 
+					+ "\n      |     6 - Histórico da Vaga   |     " 
+					+ "\n      |-----------------------------|     "
+					+ "\n      |     0 -  S A I R            |     " 
+					+ "\n       Informe a opção desejada: ");
 
 			Scanner sc = new Scanner(System.in);
 			Integer opcao = sc.nextInt();
@@ -112,7 +117,9 @@ public class EstacionamentoFourParkAlternativo {
 					if (estacionamento[posicao] == null) {
 						continue;
 					}
-
+					if (estacionamento[posicao].getVeiculo() == null) {
+						continue;
+					}
 					if (estacionamento[posicao].getVeiculo().getPlaca().equals(placaInformada)) {
 
 						estacionamento[posicao].setHorarioSaida(new Date());
@@ -120,7 +127,9 @@ public class EstacionamentoFourParkAlternativo {
 						Double valorAPagar = (estacionamento[posicao].tempoEstacionado() / 3600) * valorHora;
 
 						System.out.println("O valor à pagar é de: " + valorAPagar);
+						String historicoVaga = estacionamento[posicao].toString() + " O valor pago foi: " + valorAPagar;
 
+						estacionamento[posicao].setHistoricoDaVaga(historicoVaga);
 						estacionamento[posicao].setIsDisponivel(true);
 						estacionamento[posicao].setVeiculo(null);
 
@@ -189,6 +198,23 @@ public class EstacionamentoFourParkAlternativo {
 				System.out.println("A vaga está vazia");
 
 				continue;
+				
+			case 6:
+				
+				for (int i = 0; i < estacionamento.length; i++) {
+					ClasseVaga classeVaga = estacionamento[i];
+
+					if (classeVaga != null) {
+
+						System.out.println(estacionamento[i].getHistoricoDaVaga());
+					} else {
+						
+						System.out.println(" A vaga " + (i + 1) + " ainda não foi ocupada para ter histórico.");
+					}
+					
+				}	
+				
+			
 
 			default:
 				break;

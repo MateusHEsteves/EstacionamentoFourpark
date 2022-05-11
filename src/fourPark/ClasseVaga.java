@@ -11,6 +11,16 @@ public class ClasseVaga {
 	private Integer posicao;
 	private Boolean isDisponivel;
 	private ClasseVeiculo veiculo;
+	private String historicoDaVaga;
+	
+	public String getHistoricoDaVaga() {
+		return historicoDaVaga;
+	}
+
+	public void setHistoricoDaVaga(String historicoDaVaga) {
+		this.historicoDaVaga += historicoDaVaga + "\n";
+		
+	}
 
 	public ClasseVeiculo getVeiculo() {
 		return veiculo;
@@ -25,7 +35,7 @@ public class ClasseVaga {
 		this.horarioEntrada = new Date();
 		this.posicao = posicao;
 		this.isDisponivel = isDisponivel;
-		
+		this.historicoDaVaga = "";
 
 	}
 
@@ -64,10 +74,15 @@ public class ClasseVaga {
 	public long tempoEstacionado () {
 		
 	   long duracao = ((this.horarioSaida.getTime() - this.horarioEntrada.getTime()) / 1000 );
-			System.out.println(duracao);
 		return duracao;
 		
-		
 	}
+
+	@Override
+	public String toString() {
+		return "O veiculo = " + veiculo + " foi estacionado na hora = " + horarioEntrada + ", saiu na hora = " + horarioSaida + ", estava na vaga = "
+				+ (posicao + 1) + ".";
+	}
+	
 
 }
