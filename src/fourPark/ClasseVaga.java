@@ -1,13 +1,13 @@
 package fourPark;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 public class ClasseVaga {
 
-	private Date horarioEntrada;
-	private Date horarioSaida;
+	private LocalDateTime horarioEntrada;
+	private LocalDateTime horarioSaida;
 	private Integer posicao;
 	private Boolean isDisponivel;
 	private ClasseVeiculo veiculo;
@@ -32,26 +32,26 @@ public class ClasseVaga {
 
 	public ClasseVaga(Integer posicao, Boolean isDisponivel) {
 		
-		this.horarioEntrada = new Date();
+		this.horarioEntrada = LocalDateTime.now();
 		this.posicao = posicao;
 		this.isDisponivel = isDisponivel;
 		this.historicoDaVaga = "";
 
 	}
 
-	public Date getHorarioEntrada() {
+	public LocalDateTime getHorarioEntrada() {
 		return horarioEntrada;
 	}
 
-	public void setHorarioEntrada(Date horarioEntrada) {
+	public void setHorarioEntrada(LocalDateTime horarioEntrada) {
 		this.horarioEntrada = horarioEntrada;
 	}
 
-	public Date getHorarioSaida() {
+	public LocalDateTime getHorarioSaida() {
 		return horarioSaida;
 	}
 
-	public void setHorarioSaida(Date horarioSaida) {
+	public void setHorarioSaida(LocalDateTime horarioSaida) {
 		this.horarioSaida = horarioSaida;
 	}
 
@@ -73,8 +73,8 @@ public class ClasseVaga {
 	
 	public long tempoEstacionado () {
 		
-	   long duracao = ((this.horarioSaida.getTime() - this.horarioEntrada.getTime()) / 1000 );
-		return duracao;
+	   Duration duracao = Duration.between(horarioEntrada, horarioSaida);
+		return duracao.toMinutes();
 		
 	}
 

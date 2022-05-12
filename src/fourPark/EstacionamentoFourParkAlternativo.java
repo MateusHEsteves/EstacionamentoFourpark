@@ -1,9 +1,7 @@
 package fourPark;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
+import java.time.LocalDateTime;
+import java.util.Random;
 import java.util.Scanner;
 
 /*MVP 2
@@ -14,10 +12,13 @@ O sistema deverá calcular o valor recebido durante todo o dia. */
 
 public class EstacionamentoFourParkAlternativo {
 
+	
+
 	public static void main(String[] args) {
 
 		Integer tamanho = 50;
-		Double valorHora = 10.0;
+		Double valorHora = 100.0;
+		Double caixaDoDia = 0.0;
 
 		ClasseVaga[] estacionamento = new ClasseVaga[tamanho];
 		while (true) {
@@ -29,6 +30,7 @@ public class EstacionamentoFourParkAlternativo {
 					+ "\n      |     4 - Vagas Disponível    |     "
 					+ "\n      |     5 - Veículo na Vaga     |     " 
 					+ "\n      |     6 - Histórico da Vaga   |     " 
+					+ "\n      |     7 - Caixa do dia        |     "
 					+ "\n      |-----------------------------|     "
 					+ "\n      |     0 -  S A I R            |     " 
 					+ "\n       Informe a opção desejada: ");
@@ -85,7 +87,7 @@ public class EstacionamentoFourParkAlternativo {
 					if (estacionamento[posicao].getIsDisponivel()) {
 						estacionamento[posicao].setVeiculo(veiculo);
 						estacionamento[posicao].setIsDisponivel(false);
-						estacionamento[posicao].setHorarioEntrada(new Date());
+						estacionamento[posicao].setHorarioEntrada(LocalDateTime.now());
 						System.out.println("O veículo " + veiculo.getModelo() + " da placa " + veiculo.getPlaca()
 								+ " Foi estacionado na vaga: " + (posicao + 1) + " "
 								+ estacionamento[posicao].getHorarioEntrada() + ".");
@@ -121,20 +123,24 @@ public class EstacionamentoFourParkAlternativo {
 						continue;
 					}
 					if (estacionamento[posicao].getVeiculo().getPlaca().equals(placaInformada)) {
-
-						estacionamento[posicao].setHorarioSaida(new Date());
-
-						Double valorAPagar = (estacionamento[posicao].tempoEstacionado() / 3600) * valorHora;
-
-						System.out.println("O valor à pagar é de: " + valorAPagar);
-						String historicoVaga = estacionamento[posicao].toString() + " O valor pago foi: " + valorAPagar;
-
-						estacionamento[posicao].setHistoricoDaVaga(historicoVaga);
+						
+						LocalDateTime horarioDeSaida = estacionamento[posicao].getHorarioEntrada();
+						
+						estacionamento[posicao].setHorarioSaida(horarioDeSaida.plusMinutes(new Random().nextLong(350) + 10);
 						estacionamento[posicao].setIsDisponivel(true);
 						estacionamento[posicao].setVeiculo(null);
 
 						System.out.println("Obridado por estacionar no FourPark!" + "\n" + "Seu veículo está liberado."
 								+ " No horário " + estacionamento[posicao].getHorarioSaida());
+						
+						Double valorAPagar = (estacionamento[posicao].tempoEstacionado() / 3600) * valorHora;
+						
+						caixaDoDia += valorAPagar;
+						
+						System.out.println("O valor à pagar é de: " + valorAPagar);
+						String historicoVaga = estacionamento[posicao].toString() + " O valor pago foi: " + valorAPagar;
+
+						estacionamento[posicao].setHistoricoDaVaga(historicoVaga);
 
 						break;
 					}
@@ -213,8 +219,12 @@ public class EstacionamentoFourParkAlternativo {
 					}
 					
 				}	
+					continue;
 				
-			
+			case 7:
+				
+				System.out.println("O caixa do dia é: " + caixaDoDia);
+				
 
 			default:
 				break;
