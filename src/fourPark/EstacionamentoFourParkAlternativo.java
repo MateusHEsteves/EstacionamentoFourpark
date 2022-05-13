@@ -4,36 +4,24 @@ import java.time.LocalDateTime;
 import java.util.Random;
 import java.util.Scanner;
 
-/*MVP 2
-
-O sistema deverá estar apto a receber um valor/hora e deverá ser capaz de calcular o valor a pagar de cada veículo na saída.
-O sistema deverá exibir uma listagem de histórico de cada veículo que passou pelo estacionamento com horário de entrada e saída do mesmo.
-O sistema deverá calcular o valor recebido durante todo o dia. */
-
 public class EstacionamentoFourParkAlternativo {
-
-	
 
 	public static void main(String[] args) {
 
 		Integer tamanho = 50;
-		Double valorHora = 100.0;
+		Double valorHora = 15.0;
 		Double caixaDoDia = 0.0;
+		Random random = new Random();
 
 		ClasseVaga[] estacionamento = new ClasseVaga[tamanho];
 		while (true) {
 
 			System.out.println("\n\n------------ Estacionamento FOURPARK ---------------"
-					+ "\n      |     1 - Ocupar Vaga         |     " 
-					+ "\n      |     2 - Desocupar Vaga      |     "
-					+ "\n      |     3 - Vagas Ocupadas      |     " 
-					+ "\n      |     4 - Vagas Disponível    |     "
-					+ "\n      |     5 - Veículo na Vaga     |     " 
-					+ "\n      |     6 - Histórico da Vaga   |     " 
-					+ "\n      |     7 - Caixa do dia        |     "
-					+ "\n      |-----------------------------|     "
-					+ "\n      |     0 -  S A I R            |     " 
-					+ "\n       Informe a opção desejada: ");
+					+ "\n      |     1 - Ocupar Vaga         |     " + "\n      |     2 - Desocupar Vaga      |     "
+					+ "\n      |     3 - Vagas Ocupadas      |     " + "\n      |     4 - Vagas Disponível    |     "
+					+ "\n      |     5 - Veículo na Vaga     |     " + "\n      |     6 - Histórico da Vaga   |     "
+					+ "\n      |     7 - Caixa do dia        |     " + "\n      |-----------------------------|     "
+					+ "\n      |     0 -  S A I R            |     " + "\n       Informe a opção desejada: ");
 
 			Scanner sc = new Scanner(System.in);
 			Integer opcao = sc.nextInt();
@@ -55,7 +43,6 @@ public class EstacionamentoFourParkAlternativo {
 
 						}
 					}
-
 				}
 
 				System.out.println("\n Qual o modelo do veículo: \n");
@@ -123,20 +110,21 @@ public class EstacionamentoFourParkAlternativo {
 						continue;
 					}
 					if (estacionamento[posicao].getVeiculo().getPlaca().equals(placaInformada)) {
-						
-						LocalDateTime horarioDeSaida = estacionamento[posicao].getHorarioEntrada();
-						
-						estacionamento[posicao].setHorarioSaida(horarioDeSaida.plusMinutes(new Random().nextLong(350) + 10);
+
+						LocalDateTime horarioDeSaida = estacionamento[posicao].getHorarioEntrada()
+								.plusMinutes(random.nextInt(350) + 10);
+
+						estacionamento[posicao].setHorarioSaida(horarioDeSaida);
 						estacionamento[posicao].setIsDisponivel(true);
 						estacionamento[posicao].setVeiculo(null);
 
 						System.out.println("Obridado por estacionar no FourPark!" + "\n" + "Seu veículo está liberado."
 								+ " No horário " + estacionamento[posicao].getHorarioSaida());
-						
-						Double valorAPagar = (estacionamento[posicao].tempoEstacionado() / 3600) * valorHora;
-						
+
+						Double valorAPagar = (estacionamento[posicao].tempoEstacionado() * (valorHora / 60));
+
 						caixaDoDia += valorAPagar;
-						
+
 						System.out.println("O valor à pagar é de: " + valorAPagar);
 						String historicoVaga = estacionamento[posicao].toString() + " O valor pago foi: " + valorAPagar;
 
@@ -144,7 +132,6 @@ public class EstacionamentoFourParkAlternativo {
 
 						break;
 					}
-
 				}
 
 				continue;
@@ -159,9 +146,7 @@ public class EstacionamentoFourParkAlternativo {
 
 							System.out.println("A vaga " + (classeVaga.getPosicao() + 1) + " está ocupada. ");
 						}
-
 					}
-
 				}
 
 				continue;
@@ -204,9 +189,9 @@ public class EstacionamentoFourParkAlternativo {
 				System.out.println("A vaga está vazia");
 
 				continue;
-				
+
 			case 6:
-				
+
 				for (int i = 0; i < estacionamento.length; i++) {
 					ClasseVaga classeVaga = estacionamento[i];
 
@@ -214,22 +199,19 @@ public class EstacionamentoFourParkAlternativo {
 
 						System.out.println(estacionamento[i].getHistoricoDaVaga());
 					} else {
-						
+
 						System.out.println(" A vaga " + (i + 1) + " ainda não foi ocupada para ter histórico.");
 					}
-					
-				}	
-					continue;
-				
+				}
+				continue;
+
 			case 7:
-				
+
 				System.out.println("O caixa do dia é: " + caixaDoDia);
-				
 
 			default:
 				break;
 			}
-
 		}
 	}
 }
