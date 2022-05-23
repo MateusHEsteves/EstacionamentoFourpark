@@ -207,7 +207,7 @@ public class EstacionamentoFourParkAlternativo {
 
 			case 7:
 
-				System.out.println("O caixa do dia é: " + caixaDoDia);
+				System.out.println("O caixa do dia é: R$" + caixaDoDia);
 
 			default:
 				break;
